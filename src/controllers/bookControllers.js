@@ -29,13 +29,29 @@ const getByGuid = (req, res) => {
 // Add new book to books
 const createBook = (req, res) => {
   const { body } = req;
-  // Create new instance
-  const newBook = new Book(body);
-  // Save in db
-  newBook.save();
-  res.send({
-    message: 'Book successfully created!',
-    guid: newBook.getGuid(),
+
+  Book.getAll((books) => {
+    // Filter by name, author and publication year
+    const book = books.find(
+      (ent) =>
+        ent.title === body.title &&
+        ent.author === body.author &&
+        ent.publicationYear === body.publicationYear
+    );
+    if (book) {
+      res.send({
+        message: 'That book already exists!',
+      });
+    } else {
+      // Create new instance
+      const newBook = new Book(body);
+      // Save in db
+      newBook.save();
+      res.send({
+        message: 'Book successfully created!',
+        guid: newBook.getGuid(),
+      });
+    }
   });
 };
 
