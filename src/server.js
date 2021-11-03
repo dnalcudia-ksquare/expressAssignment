@@ -1,7 +1,7 @@
 // Modules
 const express = require('express');
 const app = express();
-const PORT = 5000;
+const localPORT = 5000;
 
 // Router
 const routes = require('./routes/router');
@@ -18,6 +18,6 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
+app.listen(process.env.PORT || localPORT, () => {
+  console.log(`Example app listening at http://localhost:${localPORT}`);
 });
